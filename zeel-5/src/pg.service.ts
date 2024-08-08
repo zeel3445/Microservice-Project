@@ -1,0 +1,18 @@
+import { Pool } from 'pg';
+import { ConfigType } from '@nestjs/config';
+import { Inject } from '@nestjs/common';
+import policiesConfig from '../configs/configuration';
+
+export class PostgresService {
+  public pool: Pool;
+  constructor(
+    @Inject(policiesConfig.KEY)
+    private config: ConfigType<typeof policiesConfig>,
+  ) {
+    this.connect();
+  }
+
+  async connect() {
+    this.pool = new Pool(this.config.database);
+  }
+}
